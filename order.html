@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Deliveries - Place Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header i {
+            color: #25D366;
+            font-size: 2em;
+        }
+        header h1 {
+            color: #25D366;
+            font-size: 2em;
+            margin-left: 10px;
+        }
+        header p {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input[type="file"] {
+            padding: 8px;
+        }
+        input:focus, textarea:focus {
+            border-color: #25D366;
+            outline: none;
+        }
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            display: none;
+            margin-top: 5px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #20b356;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            color: #25D366;
+            margin-top: 10px;
+        }
+        #success {
+            display: none;
+            text-align: center;
+            color: #2ecc71;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #orderSummary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #25D366;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 0.8em;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            header i {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <i class="fas fa-motorcycle"></i>
+            <h1>Happy Deliveries</h1>
+        </header>
+        <p style="text-align: center; color: #666; font-size: 0.9em;">Place your order with ease!</p>
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div class="error" id="nameError">Please enter your name.</div>
+            </div>
+            <div class="form-group">
+                <label for="contact">Your Contact Number:</label>
+                <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" required>
+                <div class="error" id="contactError">Please enter a valid 10-digit number.</div>
+            </div>
+            <div class="form-group">
+                <label for="address">Delivery Address:</label>
+                <textarea id="address" name="address" required></textarea>
+                <div class="error" id="addressError">Please enter your delivery address.</div>
+            </div>
+            <div class="form-group">
+                <label for="order">Order Details (e.g., food items, quantity):</label>
+                <textarea id="order" name="order" required></textarea>
+                <div class="error" id="orderError">Please enter your order details.</div>
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">Order Picture URL (optional):</label>
+                <input type="url" id="imageUrl" name="imageUrl" placeholder="Paste image URL or leave blank">
+                <div class="error" id="imageUrlError">Please enter a valid URL.</div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="preOrdered" name="preOrdered">
+                <label for="preOrdered">Order is already prepared (I’ll collect it)</label>
+            </div>
+            <button type="submit">Place Order via WhatsApp</button>
+            <div id="loading">Sending order...</div>
+            <div id="success">Order sent successfully! Check your WhatsApp. Delivery guy notified.</div>
+        </form>
+        <div id="orderSummary"></div>
+        <a href="index.html" class="back-link">Back to Home</a>
+        <footer>
+            <p>© 2025 Happy Deliveries. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const form = document.getElementById('orderForm');
+        const nameInput = document.getElementById('name');
+        const contactInput = document.getElementById('contact');
+        const addressInput = document.getElementById('address');
+        const orderInput = document.getElementById('order');
+        const imageUrlInput = document.getElementById('imageUrl');
+        const preOrderedInput = document.getElementById('preOrdered');
+        const nameError = document.getElementById('nameError');
+        const contactError = document.getElementById('contactError');
+        const addressError = document.getElementById('addressError');
+        const orderError = document.getElementById('orderError');
+        const imageUrlError = document.getElementById('imageUrlError');
+        const loading = document.getElementById('loading');
+        const success = document.getElementById('success');
+        const orderSummary = document.getElementById('orderSummary');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Validate form
+            let isValid = true;
+            if (!nameInput.value.trim()) {
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                nameError.style.display = 'none';
+            }
+            if (!contactInput.value.match(/^[0-9]{10}$/)) {
+                contactError.style.display = 'block';
+                isValid = false;
+            } else {
+                contactError.style.display = 'none';
+            }
+            if (!addressInput.value.trim()) {
+                addressError.style.display = 'block';
+                isValid = false;
+            } else {
+                addressError.style.display = 'none';
+            }
+            if (!orderInput.value.trim()) {
+                orderError.style.display = 'block';
+                isValid = false;
+            } else {
+                orderError.style.display = 'none';
+            }
+            if (imageUrlInput.value && !imageUrlInput.value.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/i)) {
+                imageUrlError.style.display = 'block';
+                isValid = false;
+            } else {
+                imageUrlError.style.display = 'none';
+            }
+
+            if (!isValid) return;
+
+            // Show loading and hide success
+            loading.style.display = 'block';
+            success.style.display = 'none';
+            orderSummary.style.display = 'none';
+
+            // Get form values
+            const name = nameInput.value.trim();
+            const contact = contactInput.value.trim();
+            const address = addressInput.value.trim();
+            const order = orderInput.value.trim();
+            const imageUrl = imageUrlInput.value.trim() || 'No image provided';
+            const preOrdered = preOrderedInput.checked;
+
+            // Set current date and time (06:06 PM SAST, Friday, May 23, 2025)
+            const orderTime = '06:06 PM SAST, Friday, May 23, 2025';
+
+            // Show order summary
+            orderSummary.innerHTML = `<h4>Order Summary</h4><p>Name: ${name}</p><p>Contact: ${contact}</p><p>Address: ${address}</p><p>Order: ${order}</p><p>Image: ${imageUrl}</p><p>Pre-Ordered: ${preOrdered ? 'Yes' : 'No'}</p><p>Time: ${orderTime}</p>`;
+            orderSummary.style.display = 'block';
+
+            // Format the message for WhatsApp
+            let message = `New Order Received!%0A%0A` +
+                          `Customer Name: ${name}%0A` +
+                          `Contact: ${contact}%0A` +
+                          `Delivery Address: ${address}%0A` +
+                          `Order Details: ${order}%0A` +
+                          `Image: ${imageUrl}%0A` +
+                          `Time: ${orderTime}%0A`;
+            if (preOrdered) {
+                message += `Note: Order is already prepared. Please collect it.%0A`;
+            }
+
+            // Replace with your WhatsApp number (include country code, e.g., +1234567890)
+            const yourWhatsappNumber = "+27664188193";
+            const deliveryGuyWhatsappNumber = "+27664188193"; // Add delivery guy's number here
+            const yourWhatsappURL = `https://wa.me/${yourWhatsappNumber}?text=${encodeURIComponent(message)}`;
+            const deliveryGuyWhatsappURL = `https://wa.me/${deliveryGuyWhatsappNumber}?text=${encodeURIComponent(message)}`;
+
+            // Simulate delay for loading effect (remove in production if not needed)
+            setTimeout(() => {
+                // Open WhatsApp with the pre-filled message for you and the delivery guy
+                window.open(yourWhatsappURL, '_blank');
+                window.open(deliveryGuyWhatsappURL, '_blank');
+
+                // Hide loading, show success, and reset form
+                loading.style.display = 'none';
+                success.style.display = 'block';
+                setTimeout(() => {
+                    form.reset();
+                    success.style.display = 'none';
+                    orderSummary.style.display = 'none';
+                }, 2000);
+            }, 1000);
+        });
+
+        // Real-time validation
+        [nameInput, contactInput, addressInput, orderInput].forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.trim()) {
+                    document.getElementById(`${input.id}Error`).style.display = 'none';
+                }
+            });
+        });
+        contactInput.addEventListener('input', () => {
+            if (!contactInput.value.match(/^[0-9]{0,10}$/)) {
+                contactError.style.display = 'block';
+            } else if (contactInput.value.length === 10) {
+                contactError.style.display = 'none';
+            }
+        });
+        imageUrlInput.addEventListener('input', () => {
+            if (imageUrlInput.value && !imageUrlInput.value.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/i)) {
+                imageUrlError.style.display = 'block';
+            } else {
+                imageUrlError.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

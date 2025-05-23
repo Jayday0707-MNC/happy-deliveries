@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Deliveries</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .landing-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: #25D366;
+            color: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .landing-section header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .landing-section header i {
+            color: white;
+            font-size: 2.5em;
+            margin-right: 10px;
+        }
+        .landing-section header h1 {
+            font-size: 2.5em;
+        }
+        .landing-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .landing-section a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #25D366;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .landing-section a:hover {
+            background: #f1f1f1;
+        }
+        @media (max-width: 480px) {
+            .landing-section {
+                padding: 30px 15px;
+            }
+            .landing-section header h1 {
+                font-size: 2em;
+            }
+            .landing-section header i {
+                font-size: 2em;
+            }
+            .landing-section p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-section">
+        <header>
+            <i class="fas fa-motorcycle"></i>
+            <h1>Happy Deliveries</h1>
+        </header>
+        <p>Get your favorite food,drinks  delivered fast and fresh with Happy delivery service.</p>
+        <a href="order.html">Order Now</a>
+    </div>
+</body>
+</html>
